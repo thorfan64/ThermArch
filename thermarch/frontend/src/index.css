@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    /* Drafting sheet: a 32px minor grid over a 160px major grid.
+       Fixed attachment keeps it reading as a sheet the content sits on. */
+    background-image:
+      linear-gradient(rgba(237, 243, 247, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237, 243, 247, 0.055) 1px, transparent 1px),
+      linear-gradient(rgba(237, 243, 247, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237, 243, 247, 0.03) 1px, transparent 1px),
+      radial-gradient(120% 90% at 50% -10%, #0E3350 0%, #0A2338 45%, #061626 100%);
+    background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px, 100% 100%;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid #E3A23C;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: rgba(227, 162, 60, 0.3);
+  }
+}
+
+@layer components {
+  /* Drafting annotation: the caps labels in this product are sheet
+     annotations, matching how the parameters would be called out on a
+     real drawing. */
+  .annot {
+    @apply font-mono text-[11px] uppercase tracking-annot text-paper-faint;
+  }
+
+  .sheet {
+    @apply border border-rule bg-ink-raised/60 backdrop-blur-[2px];
+  }
+
+  .readout {
+    @apply font-mono tabular-nums;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border px-5 py-3
+           text-sm font-medium transition-colors duration-150
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn border-paper bg-paper text-ink-deep hover:bg-white;
+  }
+
+  .btn-ghost {
+    @apply btn border-rule text-paper hover:border-paper/50 hover:bg-white/5;
+  }
+
+  .field {
+    @apply w-full border border-rule bg-ink-deep/70 px-4 py-3 text-paper
+           placeholder:text-paper-faint focus:border-paper/40 focus:outline-none;
+  }
+}
+
+/* Corner ticks: the registration marks of a drawing sheet. Applied only to
+   the primary result panels so the device stays meaningful. */
+.ticked {
+  position: relative;
+}
+.ticked::before,
+.ticked::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(237, 243, 247, 0.45);
+  pointer-events: none;
+}
+.ticked::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.ticked::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
